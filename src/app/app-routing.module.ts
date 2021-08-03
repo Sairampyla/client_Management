@@ -24,9 +24,9 @@ const routes: Routes = [
     path:'user-list',component:UserListComponent,canActivate:[AuthenticationGuard]
   },
   {
-    path:'user-edit/:id',component:UserEditComponent
+    path:'user-edit/:id',component:UserEditComponent,canActivate:[AuthenticationGuard]
   },
-  { path: 'resetPassword/:id', component:ResetPasswordComponent }
+  { path: 'resetPassword/:id', component:ResetPasswordComponent,canActivate:[AuthenticationGuard] }
 ];
 
 @NgModule({
