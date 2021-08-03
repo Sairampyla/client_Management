@@ -1,0 +1,102 @@
+
+
+
+ <div id="sect1"class="container">       
+  
+
+<div class="container custom-container">
+  <div class="col-md-12">
+    
+    <form [formGroup]="taskFormm" (ngSubmit)="onSubmit()">
+    <div class="form-group grp grp_det col-md-4">
+      <label class="bg" >Name</label>
+      <input type="text" formControlName="name" class="form-control">
+      <small class="errormessage" *ngIf="submitted && taskFormm.controls.name.hasError('required')">
+        Name is required
+    </small>
+    </div>
+  
+    <div class="form-group grp grp_det col-md-4">
+      <label  class="bg" >Email</label>
+      <input type="text" formControlName="email" class="form-control">
+      <small class="errormessage" *ngIf="submitted && taskFormm.controls.email.hasError('required')">
+        Email is required
+    </small>
+      <small class="errormessage" *ngIf="submitted && taskFormm.controls.email.hasError('pattern')">Email pattern
+        does'nt match</small>
+    </div>
+    <div class="form-group grp grp_det col-md-4">
+      <label  class="bg">password</label>
+      <input type="password" formControlName="password" class="form-control">
+      <small class="errormessage" *ngIf="submitted && taskFormm.controls.password.hasError('required')">
+        Password is required
+    </small>
+    </div>
+    <div class="form-group grp grp_det col-md-4">
+      <label  class="bg">Phone</label>
+      <input   
+                formControlName="phone"  
+                id="phone"   
+                type="text"   
+                class="form-control">  
+                <small class="errormessage" *ngIf="submitted && taskFormm.controls.phone.hasError('required')">
+                  Phone is required
+              </small>
+          <small class="errormessage" *ngIf="submitted && taskFormm.controls.phone.hasError('pattern')">Phone number pattern
+                  does'nt match</small>
+    </div>
+    <div class="form-group grp grp_det col-md-4">
+      <label  class="bg" >Join-date</label>
+      <input type="date" formControlName="joindate" class="form-control">
+      <small class="errormessage" *ngIf="submitted && taskFormm.controls.joindate.hasError('required')">
+        Join-date is required
+    </small>
+    </div>
+    <div class="form-group grp grp_det col-md-4">
+      <label  class="bg">Country</label>
+      <input type="text" formControlName="country" class="form-control">
+      <small class="errormessage" *ngIf="submitted && taskFormm.controls.country.hasError('required')">
+        Country is required
+    </small>
+    </div>
+    <div class="form-group grp grp_det  col-md-8">
+      <div>
+        <label  class="bg" style="margin-right: 10px;">Gender</label><br/>
+        <input id="low" type="radio" value ="M" name="gender" formControlName="gender" >
+        <label  class="bg" for="low" style="margin-right: 10px;">&nbsp;Male</label>
+        <input id="medium" type="radio" value ="F" name="gender" formControlName="gender">
+        <label  class="bg" for="medium"  style="margin-right: 10px;">&nbsp;Female</label>
+        <input id="high" type="radio" value ="O" name="gender" formControlName="gender">
+        <label   class="bg" for="high">&nbsp;Others</label>
+     
+   </div> 
+   <small class="errormessage" *ngIf="submitted && taskFormm.controls.gender.hasError('required')">
+    Gender is required
+</small>
+  </div>
+    <div class="row">
+   <div class="form-group grp grp_det col-md-2">
+   
+      <div>
+          <input type="file" accept="image/*"  #file style="display:none" (change)="fileProgress($event)">
+          <a href="javascript:void(0);"  class="bg" (click)="file.click()">Upload photo</a>
+      </div>
+      </div>
+      <div class="form-group grp grp_det col-md-2">
+      <div class="image-preview" *ngIf="previewUrl">
+        <img [src]="previewUrl" style="background: black;width:150px;height:150px" />                 
+    </div>
+      </div>
+     </div>
+     <div class="row pt-lg-4">
+      <div class="col-md-2">
+          <a><input type="submit" class="save_btn" value="Save"></a>
+      </div>
+      <div class="col-md-2">
+          <a><input type="button" (click)="cancel()" class="cancel_btn" style="padding: 5px;" value="Cancel"></a>
+      </div>
+  </div>
+    </form>
+  </div>
+  </div>
+  </div>

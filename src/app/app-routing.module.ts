@@ -1,31 +1,32 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthenticationGuard } from './authentication.guard';
+import { LoginComponent } from './Components/login/login.component';
+import { ResetPasswordComponent } from './Components/reset-password/reset-password.component';
+import { UserCreateComponent } from './Components/user-create/user-create.component';
 
-import { EventsComponent } from './events/events.component';
-import { SpecialComponent } from './special/special.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { AuthGuard } from './auth.guard';
+import { UserEditComponent } from './Components/user-edit/user-edit.component';
+import { UserListComponent } from './Components/user-list/user-list.component';
 
 
 const routes: Routes = [
   {
-     path:'',redirectTo:'/events',pathMatch:'full'
-  },
-  {
-    path:'events',component:EventsComponent,
-   // canActivate:[AuthGuard]
-  },
-  {
-    path:'special',component:SpecialComponent,
-   canActivate:[AuthGuard]
-  },
+    path:'',redirectTo:'/login',pathMatch:'full'
+ },
   {
     path:'login',component:LoginComponent
   },
+   {
+    path:'newUser',component:UserCreateComponent
+  },
+  
   {
-    path:'register',component:RegisterComponent
-  }
+    path:'user-list',component:UserListComponent,canActivate:[AuthenticationGuard]
+  },
+  {
+    path:'user-edit/:id',component:UserEditComponent
+  },
+  { path: 'resetPassword/:id', component:ResetPasswordComponent }
 ];
 
 @NgModule({

@@ -1,37 +1,70 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {HttpClientModule,HttpInterceptor, HTTP_INTERCEPTORS} from '@angular/common/http';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS} from  '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { RegisterComponent } from './register/register.component';
-import { LoginComponent } from './login/login.component';
-import { EventsComponent } from './events/events.component';
-import { SpecialComponent } from './special/special.component';
-import { AuthserviceService } from './shared/authservice.service';
-import { EventService } from './shared/event.service';
-import { AuthGuard } from './auth.guard';
-import { TokenInterceptorService } from './shared/token-interceptor.service';
+import { LoginComponent } from './Components/login/login.component';
+
+import { UserListComponent } from './Components/user-list/user-list.component';
+import { UserEditComponent } from './Components/user-edit/user-edit.component';
+import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
+import { GoogleLoginProvider } from 'angularx-social-login';
+import {FacebookLoginProvider} from 'angularx-social-login';
+
+
+import { AuthService } from './Shared/auth.service';
+import { TokenInterceptor } from './Shared/httpinterceptors/token-interceptor';
+import { AuthenticationGuard } from './authentication.guard';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ResetPasswordComponent } from './Components/reset-password/reset-password.component';
+import { UserCreateComponent } from './Components/user-create/user-create.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RegisterComponent,
     LoginComponent,
-    EventsComponent,
-    SpecialComponent
+    UserListComponent,
+    UserEditComponent,
+    ResetPasswordComponent,
+    UserCreateComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-
+    SocialLoginModule,
+    NgbModule,
+    ReactiveFormsModule
   ],
-  providers: [AuthserviceService,EventService,
-    ,AuthGuard,{provide:HTTP_INTERCEPTORS,useClass:TokenInterceptorService,multi:true}],
+  providers: [AuthService,AuthenticationGuard,
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '122393296105-jdtkso3qgdfif8e0hllc7o6696lt7auq.apps.googleusercontent.com'
+              
+            ),
+            
+          },
+          {
+            id:FacebookLoginProvider.PROVIDER_ID,
+            provider:new FacebookLoginProvider(
+              '333829878201733'
+            )
+          }
+          
+        ]
+      } as SocialAuthServiceConfig,
+      
+    },
+    {provide:HTTP_INTERCEPTORS,useClass:TokenInterceptor,multi:true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

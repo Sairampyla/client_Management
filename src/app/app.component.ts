@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { AuthserviceService } from './shared/authservice.service';
-
 
 @Component({
   selector: 'app-root',
@@ -8,6 +6,5 @@ import { AuthserviceService } from './shared/authservice.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'automobile';
-  constructor(public _servc:AuthserviceService){}
+  title = 'SampleProject';
 }
