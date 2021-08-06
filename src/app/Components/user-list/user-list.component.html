@@ -171,6 +171,7 @@
   
 <div class="container custom-container" *ngIf="addEditPanel">
   <div id="sect1"class="container"> 
+    <app-loader *ngIf="isLoading"></app-loader>
 <div class="col-md-12">
   
   <form  [formGroup]="taskForm" (ngSubmit)="onSubmit()">
