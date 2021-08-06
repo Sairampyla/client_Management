@@ -5,6 +5,8 @@ import {RestApiService} from '../../Shared/rest-api-service';
 import { SocialAuthService, GoogleLoginProvider,FacebookLoginProvider, SocialUser } from 'angularx-social-login';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
+import { NgxSpinnerService } from 'ngx-spinner';
+
 
 
 //import {Router} from '@angular/router';
@@ -32,6 +34,7 @@ export class LoginComponent implements OnInit {
   googleUser: SocialUser;
   fbUser:SocialUser;
   isLoggedin: boolean = null;
+  isLoading: boolean = false;
 
  // @Input() set isGooglePic(isGooglePic: boolean)
 
@@ -42,7 +45,7 @@ export class LoginComponent implements OnInit {
   
   constructor(private route:Router,private _servc:AuthService,
     private auth:RestApiService, private socialAuthService: SocialAuthService,
-      private fb: FormBuilder) {
+      private fb: FormBuilder,private spinner: NgxSpinnerService) {
         
    //keep me logged in 
    let userName = Cookie.get('userEmail')
@@ -83,7 +86,14 @@ export class LoginComponent implements OnInit {
   }
 
   loginData(){
+           this.isLoading = true;
+           this.spinner.show();
      this._servc.loginUser(this.loginUserData).subscribe( res =>{
+      setTimeout(() => {
+        /** spinner ends after 5 seconds */
+        this.spinner.hide();
+        this.isLoading = false;
+    }, 5000);
        if(this.rememberme == true){
          console.log("remeber true");
          
@@ -127,7 +137,14 @@ export class LoginComponent implements OnInit {
 
       //  this.route.navigate(['/user-list'])
      },
-     err => window.alert("invalid credentials")
+   
+     err =>{
+       this.spinner.hide();
+       this.isLoading = false;
+      window.alert("invalid credentials")
+
+     }
+    
      
      )
     // console.log('login success');

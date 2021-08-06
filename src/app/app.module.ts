@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS} from  '@angular/common/http';
@@ -20,6 +21,8 @@ import { AuthenticationGuard } from './authentication.guard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ResetPasswordComponent } from './Components/reset-password/reset-password.component';
 import { UserCreateComponent } from './Components/user-create/user-create.component';
+import { LoaderComponent } from './loader/loader.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -28,16 +31,19 @@ import { UserCreateComponent } from './Components/user-create/user-create.compon
     UserListComponent,
     UserEditComponent,
     ResetPasswordComponent,
-    UserCreateComponent
+    UserCreateComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
     SocialLoginModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxSpinnerModule
   ],
   providers: [AuthService,AuthenticationGuard,
     {
