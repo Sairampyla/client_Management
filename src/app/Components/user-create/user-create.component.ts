@@ -9,7 +9,6 @@ import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import {map} from 'rxjs/operators';
 import { SocialAuthService} from 'angularx-social-login';
-import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-user-create',
@@ -47,13 +46,12 @@ export class UserCreateComponent implements OnInit {
    iserrormsg:boolean = false;
   issuccessmsg:boolean = false;
  
-isLoading: boolean = false;
 previewUrl:any = null;
 
   
     constructor(public auth: RestApiService,public fb:FormBuilder,
       public actRoute: ActivatedRoute,public http:HttpClient, private socialLogins:SocialAuthService,
-      public router: Router,private spinner: NgxSpinnerService) {
+      public router: Router) {
        
      }
   
@@ -141,18 +139,10 @@ preview() {
               formData.append("file",this.fileData);
               console.log(this.fileData,"file dataa");
             console.log(...formData);
-            this.isLoading = true;
-            this.spinner.show();
             this.auth.createEmployee(formData).subscribe((x:any) =>{
              console.log(x,"response");
               if(x.success == true){
-             
-                setTimeout(() => {
-                  this.isLoading = false;
-                  this.spinner.hide();
-                 }, 2000);
                  alert("register done successfully...pls login to continue...")
-                
                  this.router.navigate(['/login'])
               }
               else{

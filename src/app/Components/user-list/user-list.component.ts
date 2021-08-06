@@ -8,7 +8,6 @@ import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import {map} from 'rxjs/operators';
 import { SocialAuthService} from 'angularx-social-login';
-import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -61,14 +60,13 @@ export class UserListComponent implements OnInit {
    ispwdForm:boolean = false;
    iserrormsg:boolean = false;
   issuccessmsg:boolean = false;
-  isLoading:boolean = false;
  
 previewUrl:any = null;
 state$: Observable<object>;
   
     constructor(public auth: RestApiService,public fb:FormBuilder,
       public actRoute: ActivatedRoute,public http:HttpClient, private socialLogins:SocialAuthService,
-      public router: Router,private spinner: NgxSpinnerService) {
+      public router: Router) {
        
      }
   
@@ -366,17 +364,11 @@ console.log(...formData);
         //  }
 
          console.log(formData,"data check");
-         this.isLoading = true;
-         this.spinner.show();
           this.auth.updateEmployee(this.editObj._id,formData).subscribe((x:any)=>{
 
             if(x.success == true){
               console.log("truee");
               setTimeout(() => {
-              
-                  this.isLoading = false;
-                  this.spinner.hide();
-                
                 this.loadEmployees();
                 this.gridPanel = true;
            this.addEditPanel = false;
