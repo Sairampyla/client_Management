@@ -80,12 +80,12 @@ export class RestApiService {
   
 
   //forgot-pwd link
-//  getEmaillink(data){
-//   return this.http.put(this._url+'/employees/forgot-passwordlink',data,this.httpOptions)
-//  }
-getEmaillink(data){
-  return this.http.put('http://localhost:8080/employees/forgot-passwordlink',data,this.httpOptions)
+ getEmaillink(data){
+  return this.http.put(this._url+'/employees/forgot-passwordlink',data,this.httpOptions)
  }
+// getEmaillink(data){
+//   return this.http.put('http://localhost:8080/employees/forgot-passwordlink',data,this.httpOptions)
+//  }
 
   //forgot-pasword
   forgotPassword(data){
