@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 
 export class AuthService {
-private _logUrl:string = "https://backend-auth1.herokuapp.com/employees/login"
+  private _logUrl:string = "https://backend-auth1.herokuapp.com/employees/login"
 //private _logUrl:string = "http://localhost:8080/employees/login"
   constructor(private http:HttpClient,private route:Router) { }
 
