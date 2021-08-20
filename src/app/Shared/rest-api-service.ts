@@ -15,7 +15,8 @@ import { Cookie } from 'ng2-cookies/ng2-cookies';
 export class RestApiService {
   formdata : Employees;
  
- private _url:string = environment.Apiurl;
+ //private _url:string = environment.Apiurl;
+ private _url:string = 'http://localhost:8080'
  
   httpOptions = {
     headers: new HttpHeaders({
@@ -79,8 +80,11 @@ export class RestApiService {
   
 
   //forgot-pwd link
- getEmaillink(data){
-  return this.http.put(this._url+'/employees/forgot-passwordlink',data,this.httpOptions)
+//  getEmaillink(data){
+//   return this.http.put(this._url+'/employees/forgot-passwordlink',data,this.httpOptions)
+//  }
+getEmaillink(data){
+  return this.http.put('http://localhost:8080/employees/forgot-passwordlink',data,this.httpOptions)
  }
 
   //forgot-pasword

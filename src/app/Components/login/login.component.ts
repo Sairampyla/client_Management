@@ -88,54 +88,52 @@ export class LoginComponent implements OnInit {
   loginData(){
            this.isLoading = true;
            this.spinner.show();
-     this._servc.loginUser(this.loginUserData).subscribe( res =>{
-      setTimeout(() => {
-        /** spinner ends after 5 seconds */
-        this.spinner.hide();
-        this.isLoading = false;
-    }, 5000);
-       if(this.rememberme == true){
-         console.log("remeber true");
+     this._servc.loginUser(this.loginUserData).subscribe((res:any) =>{
+       if(res.success == true){
+        setTimeout(() => {
+          /** spinner ends after 5 seconds */
+          this.spinner.hide();
+          this.isLoading = false;
+      }, 5000);
+         if(this.rememberme == true){
+           console.log("remeber true");
+           
+          localStorage.setItem('token',res.token)
+          console.log(res,"response");
+          localStorage.setItem("username",res.fetchedUser.name)
+          localStorage.setItem("email",res.fetchedUser.email)
+         localStorage.setItem("id",res.fetchedUser._id)
+         Cookie.set('userEmail', this.loginUserData.email,365);
+         Cookie.set('userPassword',this.loginUserData.password,365 );
+         Cookie.set('rememberMe',this.rememberme,365);
+         Cookie.set("cookie-key", "cookie-value", 365);
+   
+          this.route.navigate(['/user-list'])
+  
+         }else if(this.rememberme == false){
+          console.log("remember false");
+           
+          Cookie.deleteAll();
+          localStorage.setItem('token',res.token)
+          console.log(res,"response");
+          localStorage.setItem("username",res.fetchedUser.name)
+          localStorage.setItem("email",res.fetchedUser.email)
+         localStorage.setItem("id",res.fetchedUser._id)
+   
+          this.route.navigate(['/user-list'])
+         }else if(this.rememberme == true || this.loginUserData.email !=Cookie.get('userEmail') || this.loginUserData.password !=Cookie.get('userPassword')){
+          console.log("remeber 3rd case");
+           
+          Cookie.deleteAll();
+                     Cookie.set('userEmail', this.loginUserData.email, 365);
+                     Cookie.set('userPassword',this.loginUserData.password , 365);
+                     Cookie.set('rememberMe',this.rememberme, 365);
+                     Cookie.set("cookie-key", "cookie-value", 365);
+         }
+       }else if(res.success == false){
          
-        localStorage.setItem('token',res.token)
-        console.log(res,"response");
-        localStorage.setItem("username",res.fetchedUser.name)
-        localStorage.setItem("email",res.fetchedUser.email)
-       localStorage.setItem("id",res.fetchedUser._id)
-       Cookie.set('userEmail', this.loginUserData.email,365);
-       Cookie.set('userPassword',this.loginUserData.password,365 );
-       Cookie.set('rememberMe',this.rememberme,365);
-       Cookie.set("cookie-key", "cookie-value", 365);
- 
-        this.route.navigate(['/user-list'])
-
-       }else if(this.rememberme == false){
-        console.log("remember false");
-         
-        Cookie.deleteAll();
-        localStorage.setItem('token',res.token)
-        console.log(res,"response");
-        localStorage.setItem("username",res.fetchedUser.name)
-        localStorage.setItem("email",res.fetchedUser.email)
-       localStorage.setItem("id",res.fetchedUser._id)
- 
-        this.route.navigate(['/user-list'])
-       }else if(this.rememberme == true || this.loginUserData.email !=Cookie.get('userEmail') || this.loginUserData.password !=Cookie.get('userPassword')){
-        console.log("remeber 3rd case");
-         
-        Cookie.deleteAll();
-                   Cookie.set('userEmail', this.loginUserData.email, 365);
-                   Cookie.set('userPassword',this.loginUserData.password , 365);
-                   Cookie.set('rememberMe',this.rememberme, 365);
-                   Cookie.set("cookie-key", "cookie-value", 365);
        }
-      //  localStorage.setItem('token',res.token)
-      //  console.log(res,"response");
-      //  localStorage.setItem("username",res.fetchedUser.name)
-      //  localStorage.setItem("email",res.fetchedUser.email)
-      // localStorage.setItem("id",res.fetchedUser._id)
-
-      //  this.route.navigate(['/user-list'])
+    
      },
    
      err =>{
@@ -178,16 +176,26 @@ toggleFieldTextType() {
     const data = {
       "email": val.foremail
     }
-
+    this.isLoading = true;
+    this.spinner.show();
 
     if(this.forgotPwdform.valid){
       this.auth.getEmaillink(data).subscribe((res:any)=>{
           console.log(res,"response occured...");
           this.data = res;
+        //   setTimeout(() => {
+        //     /** spinner ends after 5 seconds */
+        //     this.spinner.hide();
+        //     this.isLoading = false;
+        // },2000);
           if(res.status == 200){
             this.successmsg = true;
+            this.spinner.hide();
+            this.isLoading = false;
           }else if(res.status == 401){
              this.errormsg = true;
+             this.spinner.hide();
+             this.isLoading = false;
           }
             
             // setTimeout(() => {
@@ -207,13 +215,25 @@ toggleFieldTextType() {
   onGmaillogin(){
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then((x:any)=>{
 
-      
+      console.log(x,"data from Google...")
+      this.isLoading = true;
+        this.spinner.show();
       this.auth.googleLogin({name:x.name,
-        googleId:x.id,files:x.photoUrl}).subscribe((res:any)=>{
-        //  this.isGooglePic = false;
+        googleId:x.id,files:x.photoUrl,email:x.email}).subscribe((res:any)=>{
+        //  this.isGooglePic = false;  this.isLoading = true;
+        
+
+      //   setTimeout(() => {
+      //     /** spinner ends after 5 seconds */
+      //     this.spinner.hide();
+      //     this.isLoading = false;
+      // }, 5000);
           console.log(res,"response");
           if(res['success']){
+            this.spinner.hide();
+            this.isLoading = false;
             localStorage.setItem('token',res['token'])
+            localStorage.setItem("username",res.fetchedUser.name)
             this.route.navigate(['/user-list'])
           }else{
             alert("login not occured");
@@ -227,6 +247,8 @@ toggleFieldTextType() {
   onFblogin(){
   this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID).then((y:any)=>{
    // console.log(fbuser,"fb user");
+   this.isLoading = true;
+   this.spinner.show();
     this.auth.facebookLogin({name:y.name,
     fbId:y.id,files:y.photoUrl}).subscribe((res:any)=>{
       console.log(res,"response");

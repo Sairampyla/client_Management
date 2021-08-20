@@ -60,7 +60,7 @@ previewUrl:any = null;
     ngOnInit() {
       this.taskFormm = this.fb.group({
         name:['',[Validators.required]],
-        email:['',[Validators.required],Validators.pattern("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,5}$")],
+        email:['',[Validators.required,Validators.pattern("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,5}$")]],
         phone:['', [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
         gender:['',Validators.required],
         joindate:['',Validators.required],
