@@ -15,8 +15,8 @@ import { Cookie } from 'ng2-cookies/ng2-cookies';
 export class RestApiService {
   formdata : Employees;
  
- private _url:string = environment.Apiurl;
- //private _url:string = 'http://localhost:8080'
+// private _url:string = environment.Apiurl;
+ private _url:string = 'http://localhost:8080'
  
   httpOptions = {
     headers: new HttpHeaders({
